@@ -543,7 +543,7 @@ module.exports = (robot) ->
         withCurrentOncallId msg, s, (oncallUserid, oncallUsername, schedule) ->
           if userId == oncallUserid
             cb null, "* @#{msg.message.user.name} is on call for #{schedule.name} - https://#{pagerduty.subdomain}.pagerduty.com/schedules##{schedule.id}"
-         else
+          else
             cb null, ""
 
       if !userId?
@@ -558,7 +558,7 @@ module.exports = (robot) ->
             async.map schedules, renderSchedule, (err, results) ->
               if err?
                 robot.emit 'error', err, msg
-                return
+                return   
               if results.length > 0
                 msg.send results
               else
