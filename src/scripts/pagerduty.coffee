@@ -560,7 +560,7 @@ module.exports = (robot) ->
                 robot.emit 'error', err, msg
                 return   
               if results.length > 0
-                msg.send results
+                msg.send results.json('\n')
               else
                 msg.send "@#{msg.message.user.name} you're not on call! Enjoy the relative freedom, it will not last forever."
           else
