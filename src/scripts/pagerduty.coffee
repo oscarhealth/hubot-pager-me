@@ -533,6 +533,7 @@ module.exports = (robot) ->
 
   # Am I on call?
   robot.respond /am i on (call|oncall|on-call)/i, (msg) ->
+    sender = msg.message.user.name
     if pagerduty.missingEnvironmentForApi(msg)
       return
 
@@ -542,7 +543,7 @@ module.exports = (robot) ->
       renderSchedule = (s, cb) ->
         withCurrentOncallId msg, s, (oncallUserid, oncallUsername, schedule) ->
           if userId == oncallUserid
-            cb null, "* @#{fromUserName} is on call for #{schedule.name} - https://#{pagerduty.subdomain}.pagerduty.com/schedules##{schedule.id}"
+            cb null, "* @#{sender} is on call for #{schedule.name} - https://#{pagerduty.subdomain}.pagerduty.com/schedules##{schedule.id}"
 # remove not on call messages - too spammy
 #          else
 #            cb null, "* No, you are NOT on call for #{schedule.name} (but #{oncallUsername} is)- https://#{pagerduty.subdomain}.pagerduty.com/schedules##{schedule.id}"
@@ -563,7 +564,7 @@ module.exports = (robot) ->
               if results.length > 0
                 msg.send results.join("\n")
               else
-                msg.send "@#{fromUserName} you're not on call! Enjoy the relative freedom, it will not last forever."
+                msg.send "@#{sender} you're not on call! Enjoy the relative freedom, it will not last forever."
           else
             msg.send 'No schedules found!'
 
