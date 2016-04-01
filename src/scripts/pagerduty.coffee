@@ -542,9 +542,10 @@ module.exports = (robot) ->
       renderSchedule = (s, cb) ->
         withCurrentOncallId msg, s, (oncallUserid, oncallUsername, schedule) ->
           if userId == oncallUserid
-            cb null, "* Yes, you are on call for #{schedule.name} - https://#{pagerduty.subdomain}.pagerduty.com/schedules##{schedule.id}"
-          else
-            cb null, "* No, you are NOT on call for #{schedule.name} (but #{oncallUsername} is)- https://#{pagerduty.subdomain}.pagerduty.com/schedules##{schedule.id}"
+            cb null, "* @#{fromUserName} is on call for #{schedule.name} - https://#{pagerduty.subdomain}.pagerduty.com/schedules##{schedule.id}"
+# remove not on call messages - too spammy
+#          else
+#            cb null, "* No, you are NOT on call for #{schedule.name} (but #{oncallUsername} is)- https://#{pagerduty.subdomain}.pagerduty.com/schedules##{schedule.id}"
 
       if !userId?
         msg.send "Couldn't figure out the pagerduty user connected to your account."
@@ -559,7 +560,10 @@ module.exports = (robot) ->
               if err?
                 robot.emit 'error', err, msg
                 return
-              msg.send results.join("\n")
+              if results.length > 0
+                msg.send results.join("\n")
+              else
+                msg.send "@#{fromUserName} you're not on call! Enjoy the relative freedom, it will not last forever."
           else
             msg.send 'No schedules found!'
 
