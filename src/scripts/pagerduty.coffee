@@ -559,7 +559,6 @@ module.exports = (robot) ->
               if err?
                 robot.emit 'error', err, msg
                 return
-
               if results.length > 0
                 msg.send results
               else
