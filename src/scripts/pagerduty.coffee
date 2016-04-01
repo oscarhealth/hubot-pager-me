@@ -542,7 +542,7 @@ module.exports = (robot) ->
       renderSchedule = (s, cb) ->
         withCurrentOncallId msg, s, (oncallUserid, oncallUsername, schedule) ->
           if userId == oncallUserid
-            cb null, "* @#{msg.message.user.name} is on call for #{schedule.name} - https://#{pagerduty.subdomain}.pagerduty.com/schedules##{schedule.id}"
+            cb null, "* @#{msg.message.user.mention_name} is on call for #{schedule.name} - https://#{pagerduty.subdomain}.pagerduty.com/schedules##{schedule.id}"
           else
             cb null, ""
 
@@ -562,7 +562,7 @@ module.exports = (robot) ->
               if results.length > 0
                 msg.send results.join('\n')
               else
-                msg.send "@#{msg.message.user.name} you're not on call! Enjoy the relative freedom, it will not last forever."
+                msg.send "@#{msg.message.user.mention_name} you're not on call! Enjoy the relative freedom, it will not last forever."
           else
             msg.send 'No schedules found!'
 
