@@ -577,9 +577,9 @@ module.exports = (robot) ->
     renderSchedule = (s, cb) ->
       withCurrentOncall msg, s, (username, schedule) ->
         cb null, messages.push("* #{username} is on call for #{schedule.name} - https://#{pagerduty.subdomain}.pagerduty.com/schedules##{schedule.id}")
-    # setTimeout ( ->
-    #   msg.send messages.join("\n")
-    # ), 1500
+    setTimeout ( ->
+      msg.send messages.join("\n")
+    ), 1500
 
     if scheduleName?
       withScheduleMatching msg, scheduleName, (s) ->
@@ -598,7 +598,7 @@ module.exports = (robot) ->
             if err?
               robot.emit 'error', err, msg
               return
-            msg.send results.join("\n")
+            # msg.send results.join("\n")
         else
           msg.send 'No schedules found!'
 
