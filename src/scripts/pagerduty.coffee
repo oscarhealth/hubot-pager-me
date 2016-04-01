@@ -543,9 +543,8 @@ module.exports = (robot) ->
         withCurrentOncallId msg, s, (oncallUserid, oncallUsername, schedule) ->
           if userId == oncallUserid
             cb null, "* @#{msg.message.user.name} is on call for #{schedule.name} - https://#{pagerduty.subdomain}.pagerduty.com/schedules##{schedule.id}"
-# remove not on call messages - too spammy
-#          else
-#            cb null, "* No, you are NOT on call for #{schedule.name} (but #{oncallUsername} is)- https://#{pagerduty.subdomain}.pagerduty.com/schedules##{schedule.id}"
+         else
+            cb null, ""
 
       if !userId?
         msg.send "Couldn't figure out the pagerduty user connected to your account."
@@ -560,6 +559,7 @@ module.exports = (robot) ->
               if err?
                 robot.emit 'error', err, msg
                 return
+
               if results.length > 0
                 msg.send results
               else
